@@ -57,7 +57,7 @@ namespace Plugghest.Modules.DisplayPlugg
     public partial class View : DisplayPluggModuleBase, IActionable
     {
         string EditStr = "", curlan = "";
-        int pluggid;
+        int pluggid; //x
         bool IsAuthorized = false, IsCase3, IsCase2, IsCase3_1, chkComTxt = false;
         string BtnAddtxt, LabSubjecttxt, LabComponenttxt, LabAddNewcomTxt, LabNoComtxt, btnEditPlugTxt, BtnYoutubeTxt, BtnEditTxt, BtncanceleditTet, BtncanceltransTxt, BtnlocalTxt, BtntransplugTxt, BtnCancelTxt, BtnGoogleTransTxtOkTxt, BtnImpgoogleTransTxt, BtnImproveHumTransTxt, BtnLabelTxt, BtnLatexTxt, BtnRemoveTxt, BtnRichRichTxttxt, BtnRichTextTxt, BtnSaveTxt, BtnYouTubeTxt;
         PluggContainer p;
