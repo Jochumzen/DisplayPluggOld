@@ -28,7 +28,7 @@ namespace Christoc.Modules.DisplayPlugg {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Plugghest.Modules.USerControl.DisplayPlugg.Label.Edit1 label;
+        protected global::Plugghest.Modules.UserControl.DisplayPlugg.Label.Edit1 label;
         
         /// <summary>
         /// latex control.
@@ -37,7 +37,7 @@ namespace Christoc.Modules.DisplayPlugg {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Plugghest.Modules.USerControl.DisplayPlugg.Latex.Edit1 latex;
+        protected global::Plugghest.Modules.UserControl.DisplayPlugg.Latex.Edit1 latex;
         
         /// <summary>
         /// RichRichText control.
@@ -46,7 +46,7 @@ namespace Christoc.Modules.DisplayPlugg {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Plugghest.Modules.USerControl.DisplayPlugg.RichRichText.Edit1 RichRichText;
+        protected global::Plugghest.Modules.UserControl.DisplayPlugg.RichRichText.Edit1 RichRichText;
         
         /// <summary>
         /// RichText control.
@@ -55,7 +55,7 @@ namespace Christoc.Modules.DisplayPlugg {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Plugghest.Modules.USerControl.DisplayPlugg.RichText.Edit RichText;
+        protected global::Plugghest.Modules.UserControl.DisplayPlugg.RichText.Edit RichText;
         
         /// <summary>
         /// YouTube control.
@@ -64,6 +64,6 @@ namespace Christoc.Modules.DisplayPlugg {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Plugghest.Modules.USerControl.DisplayPlugg.YouTube.Edit1 YouTube;
+        protected global::Plugghest.Modules.UserControl.DisplayPlugg.YouTube.Edit1 YouTube;
     }
 }

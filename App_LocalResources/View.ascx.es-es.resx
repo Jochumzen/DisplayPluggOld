@@ -117,70 +117,106 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add.Text" xml:space="preserve">
-    <value>Añadir</value>
+  <data name="BasicSettings.Text" xml:space="preserve">
+    <value>Ajustes DisplayPlugg básicos</value>
   </data>
-  <data name="btncanceledit.Text" xml:space="preserve">
-    <value>salir del modo de edición</value>
+  <data name="btncanceleditResource1.Text" xml:space="preserve">
+    <value>Cancelar Plugg</value>
   </data>
-  <data name="btncanceltrans.Text" xml:space="preserve">
+  <data name="btncanceleditResource1.ToolTip" xml:space="preserve">
+    <value>Cancelar Plugg</value>
+  </data>
+  <data name="btncanceltransResource1.Text" xml:space="preserve">
     <value>Cancelar traducción</value>
   </data>
-  <data name="btnlocal.Text" xml:space="preserve">
-    <value>Mostrar el Plugg en el idioma que fue escrito en</value>
+  <data name="btncanceltransResource1.ToolTip" xml:space="preserve">
+    <value>Cancelar traducción</value>
   </data>
-  <data name="btnEditPlug.Text" xml:space="preserve">
+  <data name="btnEditPlugResource1.Text" xml:space="preserve">
     <value>Edición de Plugg</value>
+  </data>
+  <data name="btnEditPlugResource1.ToolTip" xml:space="preserve">
+    <value>Edición de Plugg</value>
+  </data>
+  <data name="btnlocalResource1.Text" xml:space="preserve">
+    <value>Ver esta Plugg en el idioma de su creación</value>
+  </data>
+  <data name="btnlocalResource1.ToolTip" xml:space="preserve">
+    <value>Ver esta Plugg en el idioma de su creación</value>
+  </data>
+  <data name="btnSelSubResource1.Text" xml:space="preserve">
+    <value>guardar</value>
+  </data>
+  <data name="btnSelSubResource1.ToolTip" xml:space="preserve">
+    <value>guardar</value>
   </data>
   <data name="btntransplug.Text" xml:space="preserve">
     <value>Ayúdanos con la traducción de este Plugg</value>
   </data>
-  <data name="Cancel.Text" xml:space="preserve">
-    <value>Cancelar</value>
+  <data name="btntransplug.ToolTip" xml:space="preserve">
+    <value>Ayúdanos con la traducción de este Plugg</value>
   </data>
-  <data name="GoogleTransTxtOk.Text" xml:space="preserve">
-    <value>Traducción de Google está bien</value>
+  <data name="btnTreecancelResource1.Text" xml:space="preserve">
+    <value>cancelar</value>
   </data>
-  <data name="ImpgoogleTrans.Text" xml:space="preserve">
-    <value>Mejorar Google texto traducido</value>
+  <data name="btnTreecancelResource1.ToolTip" xml:space="preserve">
+    <value>cancelar</value>
   </data>
-  <data name="ImproveHumTransTxt.Text" xml:space="preserve">
-    <value>Mejorar texto traducido</value>
+  <data name="CollapseAll.Text" xml:space="preserve">
+    <value>Contraer Todo</value>
   </data>
-  <data name="Label.Text" xml:space="preserve">
-    <value>Label</value>
+  <data name="ConfirmDelete.Text" xml:space="preserve">
+    <value>¿Está seguro que desea eliminar este artículo</value>
   </data>
-  <data name="Latex.Text" xml:space="preserve">
-    <value>Latex</value>
+  <data name="DeleteItem.Text" xml:space="preserve">
+    <value>borrar</value>
   </data>
-  <data name="Remove.Text" xml:space="preserve">
-    <value>Desmontar los componentes</value>
+  <data name="EditItem.Text" xml:space="preserve">
+    <value>editar</value>
   </data>
-  <data name="RichRichText.Text" xml:space="preserve">
-    <value>RichRichText</value>
+  <data name="EditModule.Text" xml:space="preserve">
+    <value>Añadir artículo</value>
   </data>
-  <data name="RichText.Text" xml:space="preserve">
-    <value>RichText</value>
+  <data name="lblCreateCourse1Resource1.Text" xml:space="preserve">
+    <value />
   </data>
-  <data name="Save.Text" xml:space="preserve">
-    <value>guardar</value>
+  <data name="lblCreateCourse1Resource1.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="YouTube.Text" xml:space="preserve">
-    <value>YouTube</value>
+  <data name="lblnoComResource1.Text" xml:space="preserve">
+    <value>Este enchufe no tiene contenido.</value>
   </data>
-  <data name="Edit.Text" xml:space="preserve">
-    <value>Edición</value>
+  <data name="lblnoComResource1.ToolTip" xml:space="preserve">
+    <value>Este enchufe no tiene contenido.</value>
   </data>
-  <data name="AddNewCom.Text" xml:space="preserve">
-    <value>Añadir nuevo componente</value>
+  <data name="lbltreeResource1.Text" xml:space="preserve">
+    <value />
   </data>
-  <data name="lblNoComponent.Text" xml:space="preserve">
-    <value>This plug has no content.</value>
+  <data name="lbltreeResource1.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="Subject.Text" xml:space="preserve">
-    <value>sujeto</value>
+  <data name="pnlEditPopupResource1.GroupingText" xml:space="preserve">
+    <value />
   </data>
-  <data name="Component.Text" xml:space="preserve">
-    <value>componente</value>
+  <data name="pnlEditPopupResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlloadCnlResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlloadCnlResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlPluggComResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlPluggComResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlTreeResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlTreeResource1.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>

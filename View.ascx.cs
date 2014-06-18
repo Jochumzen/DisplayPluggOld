@@ -37,7 +37,7 @@ using System.Threading;
 using System.Web.Script.Serialization;
 using System.Web.Services;
 using System.Web.Script.Services;
-using Plugghest.Modules.USerControl.DisplayPlugg;
+using Plugghest.Modules.UserControl.DisplayPlugg;
 
 namespace Plugghest.Modules.DisplayPlugg
 {
@@ -56,33 +56,112 @@ namespace Plugghest.Modules.DisplayPlugg
     /// -----------------------------------------------------------------------------
     public partial class View : DisplayPluggModuleBase, IActionable
     {
-        string EditStr = "", curlan = "";
-        int pluggid; //x
-        bool IsAuthorized = false, IsCase3, IsCase2, IsCase3_1, chkComTxt = false;
-        string BtnAddtxt, LabSubjecttxt, LabComponenttxt, LabAddNewcomTxt, LabNoComtxt, btnEditPlugTxt, BtnYoutubeTxt, BtnEditTxt, BtncanceleditTet, BtncanceltransTxt, BtnlocalTxt, BtntransplugTxt, BtnCancelTxt, BtnGoogleTransTxtOkTxt, BtnImpgoogleTransTxt, BtnImproveHumTransTxt, BtnLabelTxt, BtnLatexTxt, BtnRemoveTxt, BtnRichRichTxttxt, BtnRichTextTxt, BtnSaveTxt, BtnYouTubeTxt;
-        PluggContainer p;
-        ECase _Case;
+        protected override void AddedControl(Control control, int index)
+        {
+            base.AddedControl(control, index);
+        }
+
+        #region Properties
+        /// <summary>
+        /// Current Culture Code
+        /// </summary>
+        private string CurrentLanguage
+        {
+            get
+            {
+                return (Page as DotNetNuke.Framework.PageBase).PageCulture.Name;
+            }
+        }
+
+        /// <summary>
+        /// Plugg ID.
+        /// </summary>
+        private int PluggID
+        {
+            get
+            {
+                return Convert.ToInt32(((DotNetNuke.Framework.CDefault)this.Page).Title);
+            }
+        }
+
+        /// <summary>
+        /// Plugg Container.
+        /// </summary>
+        private PluggContainer PluggContainer
+        {
+            get
+            {
+                return new PluggContainer(this.CurrentLanguage, this.PluggID);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private int EditStr
+        {
+            get { return !string.IsNullOrEmpty(Page.Request.QueryString["edit"]) ? Convert.ToInt16(Page.Request.QueryString["edit"]) : 0; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private bool IsAuthorized
+        {
+            get { return ((this.UserId != -1 && this.PluggContainer.ThePlugg.WhoCanEdit == EWhoCanEdit.Anyone) || this.PluggContainer.ThePlugg.CreatedByUserId == this.UserId || (UserInfo.IsInRole("Administator"))); }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private ECase _Case
+        {
+            get
+            {
+                return ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && !IsAuthorized) ? ECase.ViewInCreationLangNotAuth :
+                    ((this.PluggContainer.CultureCode != this.PluggContainer.ThePlugg.CreatedInCultureCode) && EditStr != 2) ? ECase.ViewInAltLang :
+                    ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr != 1 && EditStr != 11) ? ECase.ViewInCreationLangAuth :
+                    ((this.PluggContainer.CultureCode != this.PluggContainer.ThePlugg.CreatedInCultureCode) && EditStr == 2) ? ECase.Translate :
+                    ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr == 1) ? ECase.Edit : ECase.SubEdit;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private string NoComponentText
+        {
+            get
+            {
+                return Localization.GetString("lblNoComponent", this.LocalResourceFile + ".ascx." + this.CurrentLanguage + ".resx");
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private string BtnEdit_Text
+        {
+            get
+            {
+                return Localization.GetString("Edit", this.LocalResourceFile + ".ascx." + this.CurrentLanguage + ".resx");
+            }
+        }
+
+        private bool _chkComTxt = false;
+        private bool chkComTxt
+        {
+            get { return _chkComTxt; }
+            set { _chkComTxt = value; }
+        }
+        #endregion
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
             {
-                curlan = (Page as DotNetNuke.Framework.PageBase).PageCulture.Name;
-                pluggid = Convert.ToInt32(((DotNetNuke.Framework.CDefault)this.Page).Title);
-                p = new PluggContainer(curlan, pluggid);
-                CallLocalization();
-                EditStr = Page.Request.QueryString["edit"];
-                IsAuthorized = (p.ThePlugg.WhoCanEdit == EWhoCanEdit.Anyone || p.ThePlugg.CreatedByUserId == this.UserId || UserInfo.IsInRole("Administator"));
-                if (this.UserId == -1)
-                {
-                    IsAuthorized = false;
-                }
-                IsCase3 = (EditStr == "1" && IsAuthorized);
-                IsCase2 = (EditStr == "2" && IsAuthorized);
-                _Case = (EditStr == "1" && IsAuthorized) ? ECase.CaseIII : (EditStr == "2" && IsAuthorized) ? ECase.CaseII : (EditStr == "11" && IsAuthorized)?ECase.CaseVI: ECase.CaseI;
-
-                PageLoadFun();
-
-
+                SetLocalizationText();
+                shuffleLocalControls();
             }
             catch (Exception exc) //Module failed to load
             {
@@ -90,127 +169,65 @@ namespace Plugghest.Modules.DisplayPlugg
             }
         }
 
-        private void CallLocalization()
-        {
-            SetLocalizationText();
-
-            SetStaticBtnText();
-        }
-
-        private void SetStaticBtnText()
-        {
-            btnlocal.Text = BtnlocalTxt;
-            btnEditPlug.Text = btnEditPlugTxt;
-            btncanceledit.Text = BtncanceleditTet;
-            btncanceltrans.Text = BtncanceltransTxt;
-            btntransplug.Text = BtntransplugTxt;
-
-
-            //btnSaveRRt.Text = BtnSaveTxt;
-            //btnSaveRt.Text = BtnSaveTxt;
-            //btnLabelSave.Text = BtnSaveTxt;
-            //btnYtSave.Text = BtnSaveTxt;
-            btnSelSub.Text = BtnSaveTxt;
-
-            //btnCanRRt.Text = BtnCancelTxt;
-            //btnCanRt.Text = BtnCancelTxt;
-            //btnYtCaNCEL.Text = BtnCancelTxt;
-            btnTreecancel.Text = BtnCancelTxt;
-            //Cancel.Text = BtnCancelTxt;
-        }
-
         private void SetLocalizationText()
         {
-            btnEditPlugTxt = Localization.GetString("btnEditPlug", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-
-
-            LabComponenttxt = Localization.GetString("Component", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            LabSubjecttxt = Localization.GetString("Subject", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            LabNoComtxt = Localization.GetString("lblNoComponent", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtncanceleditTet = Localization.GetString("btncanceledit", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnAddtxt = Localization.GetString("Add", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtncanceltransTxt = Localization.GetString("btncanceltrans", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnCancelTxt = Localization.GetString("Cancel", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnGoogleTransTxtOkTxt = Localization.GetString("GoogleTransTxtOk", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnImpgoogleTransTxt = Localization.GetString("ImpgoogleTrans", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnImproveHumTransTxt = Localization.GetString("ImproveHumTransTxt", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnLabelTxt = Localization.GetString("Label", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnLatexTxt = Localization.GetString("Latex", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnYoutubeTxt = Localization.GetString("YouTube", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnRemoveTxt = Localization.GetString("Remove", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnRichRichTxttxt = Localization.GetString("RichRichText", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnRichTextTxt = Localization.GetString("RichText", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnSaveTxt = Localization.GetString("Save", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnYouTubeTxt = Localization.GetString("YouTube", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnlocalTxt = Localization.GetString("btnlocal", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnlocalTxt = BtnlocalTxt + " (" + p.ThePlugg.CreatedInCultureCode + ")";
-            BtntransplugTxt = Localization.GetString("btntransplug", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            LabAddNewcomTxt = Localization.GetString("AddNewCom", this.LocalResourceFile + ".ascx." + curlan + ".resx");
-            BtnEditTxt = Localization.GetString("Edit", this.LocalResourceFile + ".ascx." + curlan + ".resx");
+            btnEditPlug.Text = Localization.GetString("btnEditPlugResource1.Text", this.LocalResourceFile);
+            btncanceledit.Text = Localization.GetString("btncanceleditResource1.Text", this.LocalResourceFile);
+            btncanceltrans.Text = Localization.GetString("btncanceltransResource1.Text", this.LocalResourceFile);
+            btntransplug.Text = Localization.GetString("btntransplug.Text", this.LocalResourceFile);
+            btnSelSub.Text = Localization.GetString("btnSelSubResource1.Text", this.LocalResourceFile);
+            btnTreecancel.Text = Localization.GetString("btnTreecancelResource1.Text", this.LocalResourceFile);
+            btnlocal.Text = Localization.GetString("btnlocalResource1.Text", this.LocalResourceFile) + " (" + this.PluggContainer.ThePlugg.CreatedInCultureCode + ")";
         }
 
-        private void PageLoadFun()
+        private void shuffleLocalControls()
         {
-
-            if (p.CultureCode == p.ThePlugg.CreatedInCultureCode)
+            switch (this._Case)
             {
-                if (IsCase2)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=0", "language=" + p.ThePlugg.CreatedInCultureCode }));
+                case ECase.ViewInCreationLangNotAuth:
+                    btnlocal.Visible = false;
+                    btntransplug.Visible = false;
+                    btnEditPlug.Visible = false;
+                    btncanceledit.Visible = false;
+                    break;
+                case ECase.ViewInAltLang:
+                    btnlocal.Visible = true;
+                    btntransplug.Visible = true;
+                    btnEditPlug.Visible = false;
+                    break;
+                case ECase.ViewInCreationLangAuth:
+                    btnlocal.Visible = false;
+                    btntransplug.Visible = false;
+                    btnEditPlug.Visible = true;
+                    btncanceledit.Visible = false;
+                    break;
+                case ECase.Translate:
+                    btnlocal.Visible = false;
+                    btncanceltrans.Visible = true;
+                    btntransplug.Visible = false;
+                    btnEditPlug.Visible = false;
+                    break;
+                case ECase.Edit:
+                    btnlocal.Visible = false;
+                    btntransplug.Visible = false;
+                    btnEditPlug.Visible = false;
+                    btncanceledit.Visible = true;
+                    break;
+                default:
+                    btnEditPlug.Visible = false;
+                    btnlocal.Visible = false;
+                    btntransplug.Visible = false;
+                    break;
 
-
-                btnlocal.Visible = false;
-                btntransplug.Visible = false;
-                btnEditPlug.Visible = true;
             }
-            else
-            {
-                if (IsCase3)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + p.ThePlugg.CreatedInCultureCode }));
+            DisplayPluggComp();
 
-
-                btnEditPlug.Visible = false;
-                btncanceledit.Visible = false;
-            }
-            //CheckEditCase();
-
-
-            if (!IsAuthorized)
-            {
-                btnEditPlug.Visible = false;
-            }
-            if (IsCase3)
-            {
-
-                btnEditPlug.Visible = false;
-                btncanceledit.Visible = true;
-            }
-            if (IsCase2)
-            {
-                btncanceltrans.Visible = true;
-                btntransplug.Visible = false;
-            }
-            DisPlayPluggComp();
         }
 
-        public void EditEvent(object sender, EventArgs e)
+        private void DisplayPluggComp()
         {
-            //ImpGoogleTrans(_comp, _lbl);
-        }
-
-        void WebUserControl1_btnHandler(UserControl NewControl)
-        {
-            pnlEditPopup.Controls.Clear();
-            pnlEditPopup.Controls.Add(NewControl);
-            string script = " $('#Component_Edit_to_pop').bPopup({appendTo: 'form', closeClass: 'ui-dialog-titlebar-close', speed: 650, transition: 'slideIn', zIndex: 2, modalClose: true});";
-            ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "Message", script, true);
-        }
-
-        private void DisPlayPluggComp()
-        {
-            List<PluggComponent> comps = p.GetComponentList();
+            List<PluggComponent> comps = this.PluggContainer.GetComponentList();
             int i = 0, IntCompOrder = 1;
-            int? subid = p.ThePlugg.SubjectId;
-            CreateSubject(i, subid);
             bool isLastComp = false;
 
             if (!string.IsNullOrEmpty(Page.Request.QueryString["s"]) && true == Convert.ToBoolean(Page.Request.QueryString["s"]))
@@ -220,339 +237,19 @@ namespace Plugghest.Modules.DisplayPlugg
                 return;
             }
 
+            if (!string.IsNullOrEmpty(Page.Request.QueryString["trans"]) && Convert.ToInt16(Page.Request.QueryString["trans"]) > 0)
+            {
+                int Selected_ComponentID = Convert.ToInt16(Page.Request.QueryString["trans"]);
+                LoadControl(1, false, comps.FirstOrDefault(x => x.PluggComponentId == Selected_ComponentID));
+                return;
+            }
+
+
             foreach (PluggComponent comp in comps)
             {
                 isLastComp = (IntCompOrder == comps.Count);
-                ///Prepare Data for Components
                 LoadControl(IntCompOrder, isLastComp, comp);
-                #region old
-                //switch (comp.ComponentType)
-                //{
-                //    case EComponentType.Label:
-
-                //        PHText lbl = bh.GetCurrentVersionText(curlan, comp.PluggComponentId, ETextItemType.PluggComponentLabel);
-                //        //This condition is used for editing plugg
-                //        string LabHTMLstring = "";
-                //        if (IsCase3)
-                //        {
-                //            var Label_OrderTitle = (Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle)LoadControl(Plugghest.Base2.UserControlRoot.Common.OrderTitle);
-                //            Label_OrderTitle.ComponentType = EComponentType.Label;
-                //            Label_OrderTitle.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            Label_OrderTitle.UserID = this.UserId;
-                //            Label_OrderTitle.Order = IntCompOrder;
-                //            Label_OrderTitle.TabID = TabId;
-                //            Label_OrderTitle.btnHandler += new Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle.OnButtonClick(WebUserControl1_btnHandler);
-                //            divTitle.Controls.Add(Label_OrderTitle);
-
-                //            var Label_Display = (Plugghest.Modules.USerControl.DisplayPlugg.Label.Display)LoadControl(Plugghest.Base2.UserControlRoot.Label.Display);
-                //            Label_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            Label_Display.Order = IntCompOrder;
-                //            divTitle.Controls.Add(Label_Display);
-
-                //            var Label_AddNewComponenet = (Plugghest.Modules.USerControl.DisplayPlugg.Common.AddNewComponent)LoadControl(Plugghest.Base2.UserControlRoot.Common.AddNewComponent);
-                //            Label_AddNewComponenet.Order = IntCompOrder;
-                //            Label_AddNewComponenet.isLastComp = isLastComp;
-                //            divTitle.Controls.Add(Label_AddNewComponenet);
-                //        }
-                //        else if (lbl.Text == "(No text)")
-                //        {
-                //            IntCompOrder--;
-                //            break;
-                //        }
-                //        //This condition is used for Translation The Plugg Text(same for all cases)
-                //        else if (IsCase2)
-                //        {
-                //            LabHTMLstring = CreateDiv(lbl, "Label" + i, LabComponenttxt + " " + IntCompOrder + ": " + BtnLabelTxt);
-                //            if (lbl.CultureCodeStatus == ECultureCodeStatus.GoogleTranslated)
-                //            {
-                //                CreateBtnImproveHumGoogleTrans(comp, lbl, "googletrans", "btnrtIGT" + i + "", BtnImpgoogleTransTxt);
-                //                CreateBtnGoogleT(lbl, "googleTrasok", "btnGTText" + i + "");
-                //            }
-                //            if (lbl.CultureCodeStatus == ECultureCodeStatus.HumanTranslated)
-                //            {
-                //                CreateBtnImproveHumGoogleTrans(comp, lbl, "btnhumantrans", "btnlbl" + i + "", BtnImproveHumTransTxt);
-                //            }
-                //            divTitle.Controls.Add(new LiteralControl(str));
-                //            chkComTxt = true;
-                //        }
-                //        else
-                //        {
-                //            if (lbl.Text == "(No text)")
-                //            {
-                //                break;
-                //            }
-
-                //            if (lbl != null)
-                //            {
-                //                var Label_Display = (Plugghest.Modules.USerControl.DisplayPlugg.Label.Display)LoadControl(Plugghest.Base2.UserControlRoot.Label.Display);
-                //                Label_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //                Label_Display.Order = IntCompOrder;
-                //                divTitle.Controls.Add(Label_Display);
-                //            }
-                //            //divTitle.Controls.Add(new LiteralControl("<div>" + lbl.Text + "</div> "));
-
-                //            //string LabHTMLstring = CreateDiv(lbl, "Label" + i, BtnLabelTxt);                          
-                //            chkComTxt = true;
-                //        }
-
-                //        break;
-
-                //    case EComponentType.RichText:
-                //        PHText rt = bh.GetCurrentVersionText(curlan, comp.PluggComponentId, ETextItemType.PluggComponentRichText);
-                //        if (IsCase3)
-                //        {
-
-                //            var RichText_OrderTitle = (Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle)LoadControl(Plugghest.Base2.UserControlRoot.Common.OrderTitle);
-                //            RichText_OrderTitle.ComponentType = EComponentType.RichText;
-                //            RichText_OrderTitle.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            RichText_OrderTitle.UserID = this.UserId;
-                //            RichText_OrderTitle.Order = IntCompOrder;
-                //            RichText_OrderTitle.TabID = TabId;
-                //            RichText_OrderTitle.btnHandler += new Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle.OnButtonClick(WebUserControl1_btnHandler);
-                //            divTitle.Controls.Add(RichText_OrderTitle);
-
-                //            var RichText_Display = (Plugghest.Modules.USerControl.DisplayPlugg.RichText.Display)LoadControl(Plugghest.Base2.UserControlRoot.RichText.Display);
-                //            RichText_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            RichText_Display.Order = IntCompOrder;
-                //            divTitle.Controls.Add(RichText_Display);
-
-                //            var RichText_AddNewComponenet = (Plugghest.Modules.USerControl.DisplayPlugg.Common.AddNewComponent)LoadControl(Plugghest.Base2.UserControlRoot.Common.AddNewComponent);
-                //            RichText_AddNewComponenet.Order = IntCompOrder;
-                //            RichText_AddNewComponenet.isLastComp = isLastComp;
-                //            divTitle.Controls.Add(RichText_AddNewComponenet);
-                //        }
-                //        else if (rt.Text == "(No text)")
-                //        {
-                //            IntCompOrder--;
-                //            break;
-                //        }
-                //        else if (IsCase2)
-                //        {
-
-                //            string RtHTMLstring = CreateDiv(rt, "RichText" + i, LabComponenttxt + " " + IntCompOrder + ": " + BtnRichTextTxt);
-                //            if (rt.CultureCodeStatus == ECultureCodeStatus.GoogleTranslated)
-                //            {
-                //                CreateBtnImproveHumGoogleTrans(comp, rt, "googletrans", "btnrtIGT" + i + "", BtnImpgoogleTransTxt);
-                //                CreateBtnGoogleT(rt, "googleTrasok", "btnrtGTText" + i + "");
-
-                //            }
-                //            if (rt.CultureCodeStatus == ECultureCodeStatus.HumanTranslated)
-                //            {
-                //                CreateBtnImproveHumGoogleTrans(comp, rt, "btnhumantrans", "btnrtIHT" + i + "", BtnImproveHumTransTxt);
-                //            }
-                //            divTitle.Controls.Add(new LiteralControl(str));
-                //            chkComTxt = true;
-                //        }
-                //        else
-                //        {
-                //            if (rt.Text == "(No text)")
-                //            {
-                //                break;
-                //            }
-                //            var RichText_Display = (Plugghest.Modules.USerControl.DisplayPlugg.RichText.Display)LoadControl(Plugghest.Base2.UserControlRoot.RichText.Display);
-                //            RichText_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            RichText_Display.Order = IntCompOrder;
-                //            divTitle.Controls.Add(RichText_Display);
-                //            //divTitle.Controls.Add(new LiteralControl("<div>" + rt.Text + "</div> "));
-                //            //// string RtHTMLstring = CreateDiv(rt, "RichText" + i, BtnRichTextTxt);
-
-                //            chkComTxt = true;
-                //        }
-                //        break;
-
-                //    case EComponentType.RichRichText:
-                //        PHText rrt = bh.GetCurrentVersionText(curlan, comp.PluggComponentId, ETextItemType.PluggComponentRichRichText);
-                //        if (IsCase3)
-                //        {
-                //            var RichRich_OrderTitle = (Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle)LoadControl(Plugghest.Base2.UserControlRoot.Common.OrderTitle);
-                //            RichRich_OrderTitle.ComponentType = EComponentType.RichRichText;
-                //            RichRich_OrderTitle.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            RichRich_OrderTitle.UserID = this.UserId;
-                //            RichRich_OrderTitle.Order = IntCompOrder;
-                //            RichRich_OrderTitle.TabID = TabId;
-                //            RichRich_OrderTitle.btnHandler += new Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle.OnButtonClick(WebUserControl1_btnHandler);
-                //            divTitle.Controls.Add(RichRich_OrderTitle);
-
-                //            var RichRich_Display = (Plugghest.Modules.USerControl.DisplayPlugg.RichRichText.Display)LoadControl(Plugghest.Base2.UserControlRoot.RichRichText.Display);
-                //            RichRich_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            RichRich_Display.Order = IntCompOrder;
-                //            divTitle.Controls.Add(RichRich_Display);
-
-                //            var RichRich_AddNewComponenet = (Plugghest.Modules.USerControl.DisplayPlugg.Common.AddNewComponent)LoadControl(Plugghest.Base2.UserControlRoot.Common.AddNewComponent);
-                //            RichRich_AddNewComponenet.Order = IntCompOrder;
-                //            RichRich_AddNewComponenet.isLastComp = isLastComp;
-                //            divTitle.Controls.Add(RichRich_AddNewComponenet);
-                //        }
-                //        else if (rrt.Text == "(No text)")
-                //        {
-                //            IntCompOrder--;
-                //            break;
-                //        }
-                //        else if (IsCase2)
-                //        {
-                //            string RRTHTMLstring = CreateDiv(rrt, "RichRichText" + i, LabComponenttxt + " " + IntCompOrder + ": " + BtnRichRichTxttxt);
-                //            if (rrt.CultureCodeStatus == ECultureCodeStatus.GoogleTranslated)
-                //            {
-                //                CreateBtnImproveHumGoogleTrans(comp, rrt, "googletrans", "btnrrtIGT" + i + "", BtnImpgoogleTransTxt);
-                //                CreateBtnGoogleT(rrt, "googleTrasok", "btnrrtGTText" + i + "");
-                //            }
-                //            if (rrt.CultureCodeStatus == ECultureCodeStatus.HumanTranslated)
-                //            {
-                //                CreateBtnImproveHumGoogleTrans(comp, rrt, "btnhumantrans", "btnrrtIHT" + i + "", BtnImproveHumTransTxt);
-
-                //            }
-
-                //            divTitle.Controls.Add(new LiteralControl(str));
-                //            chkComTxt = true;
-                //        }
-                //        else
-                //        {
-                //            if (rrt.Text == "(No text)")
-                //            {
-                //                break;
-                //            }
-
-                //            //divTitle.Controls.Add(new LiteralControl("<div>" + rrt.Text + "</div> "));
-                //            var RichRich_Display = (Plugghest.Modules.USerControl.DisplayPlugg.RichRichText.Display)LoadControl(Plugghest.Base2.UserControlRoot.RichRichText.Display);
-                //            RichRich_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            RichRich_Display.Order = IntCompOrder;
-                //            divTitle.Controls.Add(RichRich_Display);
-                //            ////string RRTHTMLstring = CreateDiv(rrt, "RichRichText" + i, BtnRichRichTxttxt);
-                //            chkComTxt = true;
-                //        }
-                //        break;
-
-                //    case EComponentType.Latex:
-                //        PHLatex lat = bh.GetCurrentVersionLatexText(curlan, comp.PluggComponentId, ELatexItemType.PluggComponentLatex);
-                //        if (IsCase3)
-                //        {
-                //            var Latex_OrderTitle = (Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle)LoadControl(Plugghest.Base2.UserControlRoot.Common.OrderTitle);
-                //            Latex_OrderTitle.ComponentType = EComponentType.Latex;
-                //            Latex_OrderTitle.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            Latex_OrderTitle.UserID = this.UserId;
-                //            Latex_OrderTitle.Order = IntCompOrder;
-                //            Latex_OrderTitle.TabID = TabId;
-                //            Latex_OrderTitle.btnHandler += new Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle.OnButtonClick(WebUserControl1_btnHandler);
-                //            divTitle.Controls.Add(Latex_OrderTitle);
-
-                //            var Latex_Display = (Plugghest.Modules.USerControl.DisplayPlugg.Latex.Display)LoadControl(Plugghest.Base2.UserControlRoot.Latex.Display);
-                //            Latex_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            Latex_Display.Order = IntCompOrder;
-                //            divTitle.Controls.Add(Latex_Display);
-
-                //            var Latex_AddNewComponenet = (Plugghest.Modules.USerControl.DisplayPlugg.Common.AddNewComponent)LoadControl(Plugghest.Base2.UserControlRoot.Common.AddNewComponent);
-                //            Latex_AddNewComponenet.Order = IntCompOrder;
-                //            Latex_AddNewComponenet.isLastComp = isLastComp;
-                //            divTitle.Controls.Add(Latex_AddNewComponenet);
-                //        }
-
-                //        else
-                //        {
-                //            if (lat.Text == "(No text)")
-                //            {
-                //                break;
-                //            }
-                //            var Latex_Display = (Plugghest.Modules.USerControl.DisplayPlugg.Latex.Display)LoadControl(Plugghest.Base2.UserControlRoot.Latex.Display);
-                //            Latex_Display.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            Latex_Display.Order = IntCompOrder;
-                //            divTitle.Controls.Add(Latex_Display);
-
-                //            //sdivTitle.Controls.Add(new LiteralControl("<div>" + lat.Text + "</div> "));  
-                //            string LatHTMLstring = CreateDivLat(lat, "Latex" + i, IntCompOrder);
-                //            if (IsCase2)
-                //                divTitle.Controls.Add(new LiteralControl("<hr />"));
-                //            chkComTxt = true;
-                //        }
-
-                //        break;
-
-
-                //    case EComponentType.YouTube:
-                //        YouTube yt = bh.GetYouTubeByComponentId(comp.PluggComponentId);
-                //        string strYoutubeIframe = "";
-                //        string ytYouTubecode = "";
-                //        try
-                //        {
-                //            strYoutubeIframe = yt.GetIframeString(p.CultureCode);
-                //        }
-                //        catch
-                //        {
-                //            strYoutubeIframe = "(currently no video)";
-                //        }
-                //        if (yt == null)
-                //        {
-                //            ytYouTubecode = "(currently no video)";
-                //        }
-                //        else
-                //        {
-                //            ytYouTubecode = yt.YouTubeCode;
-                //        }
-                //        var ytdivid = "Youtube" + i;
-                //        var ytddlid = "ytddl" + i;
-                //        var ytorderid = comp.ComponentOrder;
-                //        string ytHTMLstring = "";
-                //        if (IsCase3)
-                //        {
-                //            // ytHTMLstring = "<div><div id=" + ytdivid + " class='Main'>" + LabComponenttxt+" " + IntCompOrder + ": " + "YouTube";
-
-                //            var YouTube_OrderTitle = (Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle)LoadControl(Plugghest.Base2.UserControlRoot.Common.OrderTitle);
-                //            YouTube_OrderTitle.ComponentType = EComponentType.YouTube;
-                //            YouTube_OrderTitle.ComponentID = comp != null ? comp.PluggComponentId : 0;
-                //            YouTube_OrderTitle.UserID = this.UserId;
-                //            YouTube_OrderTitle.Order = IntCompOrder;
-                //            YouTube_OrderTitle.TabID = TabId;
-                //            YouTube_OrderTitle.YouTubeCode = yt != null ? yt.YouTubeCode : string.Empty;
-                //            YouTube_OrderTitle.btnHandler += new Plugghest.Modules.USerControl.DisplayPlugg.Common.OrderTitle.OnButtonClick(WebUserControl1_btnHandler);
-                //            divTitle.Controls.Add(YouTube_OrderTitle);
-
-                //            var YouTube_Display = (Plugghest.Modules.USerControl.DisplayPlugg.YouTube.Display)LoadControl(Plugghest.Base2.UserControlRoot.YouTube.Display);
-                //            YouTube_Display.YTComponentId = yt != null ? yt.PluggComponentId : 0;
-                //            divTitle.Controls.Add(YouTube_Display);
-
-                //            var YouTube_AddNewComponenet = (Plugghest.Modules.USerControl.DisplayPlugg.Common.AddNewComponent)LoadControl(Plugghest.Base2.UserControlRoot.Common.AddNewComponent);
-                //            YouTube_AddNewComponenet.Order = IntCompOrder;
-                //            YouTube_AddNewComponenet.isLastComp = isLastComp;
-                //            divTitle.Controls.Add(YouTube_AddNewComponenet);
-                //        }
-                //        else if (strYoutubeIframe == "(currently no video)")
-                //        {
-                //            IntCompOrder--;
-                //            break;
-                //        }
-                //        else
-                //        {
-                //            if (strYoutubeIframe == "(currently no video)")
-                //            {
-                //                break;
-                //            }
-                //            var YouTube_Display = (Plugghest.Modules.USerControl.DisplayPlugg.YouTube.Display)LoadControl(Plugghest.Base2.UserControlRoot.YouTube.Display);
-                //            YouTube_Display.YTComponentId = yt != null ? yt.PluggComponentId : 0;
-                //            divTitle.Controls.Add(YouTube_Display);
-                //            //divTitle.Controls.Add(new LiteralControl("<div>" + strYoutubeIframe + "</div> "));
-                //            ytHTMLstring = "<div>" + strYoutubeIframe + "</div>";
-                //            if (IsCase2)
-
-                //                divTitle.Controls.Add(new LiteralControl("<div><div id=" + ytdivid + " class='Main'>" + LabComponenttxt + " " + IntCompOrder + ": " + "YouTube"));
-
-                //            divTitle.Controls.Add(new LiteralControl(ytHTMLstring));
-                //            if (IsCase2)
-                //                divTitle.Controls.Add(new LiteralControl("<hr />"));
-
-
-
-                //            chkComTxt = true;
-                //            //DisplayYouTube.YTComponentId = yt.PluggComponentId;
-
-                //            //YouTubeControl.Order = comp.ComponentOrder;
-                //            //YouTubeControl.Mode = "Edit1";
-                //            //YouTubeControl.YouTubeId = yt.YouTubeId;
-                //            //YouTubeControl.
-                //        }
-
-                //        break;
-                //}
-                #endregion
-                i++;IntCompOrder++;
+                i++; IntCompOrder++;
             }
         }
 
@@ -567,56 +264,26 @@ namespace Plugghest.Modules.DisplayPlugg
             viewModel.isLastComp = isLastComp;
             viewModel._this = this;
 
-            Control_Case _control = new Control_Case(_Case);
+            Control_Case _control = new Control_Case(this._Case);
             _control.RunComponentType(comp.ComponentType, viewModel);
         }
 
         private void ShowNoComMsg()
         {
             lblnoCom.Visible = true;
-            lblnoCom.Text = LabNoComtxt;
-        }
-       
-        private void CreateSubject(int i, int? subid)
-        {
-            if (subid != null)
-            {
-                BindTree(Convert.ToInt32(subid));
-
-                if (IsCase3)
-                {
-                    string TreeHTMLstring = "<input type='button' id='btnTreeEdit" + i + "' class='btnTreeEdit'  value=" + BtnEditTxt + " />";
-                    divTree.Controls.Add(new LiteralControl(TreeHTMLstring));
-                }
-            }
-
+            lblnoCom.Text = this.NoComponentText;
         }
 
-        public void BindTree(int subid)
-        {
-            //BaseHandler objBaseHandler = new BaseHandler();
-            //List<Subject> SubList = (List<Subject>)objBaseHandler.GetSubjectsAsFlatList(curlan);
-            //string childName = SubList.Find(x => x.SubjectId == subid).label;
-            //int id = Convert.ToInt32(SubList.Find(x => x.SubjectId == subid).MotherId);
-            //while (id != 0)
-            //{
-            //    Subject newSub = SubList.Find(x => x.SubjectId == id);
-            //    childName = newSub.label + "->" + childName;
-            //    id = Convert.ToInt32(newSub.MotherId);
-            //}
-            //lbltree.Text = LabSubjecttxt+": " + childName;
-
-            //var tree = objBaseHandler.GetSubjectsAsTree(curlan);
-            //JavaScriptSerializer TheSerializer = new JavaScriptSerializer();
-            //hdnTreeData.Value = TheSerializer.Serialize(tree);
-
-        }
-
+        /// <summary>
+        /// event to Edit Plugg 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btnEditPlugg_Click(object sender, EventArgs e)
         {
-
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=1", "language=" + curlan }));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=1", "language=" + this.CurrentLanguage }));
         }
+
         public ModuleActionCollection ModuleActions
         {
             get
@@ -634,102 +301,38 @@ namespace Plugghest.Modules.DisplayPlugg
 
         protected void btncanceledit_Click(object sender, EventArgs e)
         {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "test=2", "language=" + curlan }));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "test=2", "language=" + this.CurrentLanguage }));
         }
 
-        protected void btnSaveRt_Click(object sender, EventArgs e)
-        {
-            ETextItemType ItemType = ETextItemType.PluggComponentRichText;
-            string txt = hdnrichtext.Value;
-            pnlPluggCom.Visible = true;
-            UpdatePHtext(ItemType, txt);
-        }
-
-        private void UpdatePHtext(ETextItemType ItemType, string txt)
-        {
-            var id = hdnlabel.Value;
-            var itemid = Convert.ToInt32(id);
-
-            List<PluggComponent> comps = p.GetComponentList();
-            PluggComponent cToAdd = comps.Find(x => x.PluggComponentId == Convert.ToInt32(id));
-            BaseHandler bh = new BaseHandler();
-
-            var comtype = cToAdd.ComponentType;
-
-            PHText phText = bh.GetCurrentVersionText(curlan, itemid, ItemType);
-
-            phText.Text = txt;
-            phText.CultureCodeStatus = ECultureCodeStatus.GoogleTranslated;
-            phText.CreatedByUserId = this.UserId;
-            if (EditStr == "2")
-            {
-                phText.CultureCodeStatus = ECultureCodeStatus.HumanTranslated;
-                bh.SavePhText(phText);
-            }
-            else
-                bh.SavePhTextInAllCc(phText);
-            // bh.SavePhText(phText);
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + curlan }));
-        }
         protected void Cancel_Click(object sender, EventArgs e)
         {
             pnlPluggCom.Visible = true;
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + curlan }));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + this.CurrentLanguage }));
         }
 
+        /// <summary>
+        /// event to "Help us with the translation of this Plugg"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void btntransplug_Click(object sender, EventArgs e)
         {
             btntransplug.Visible = false;
             btncanceltrans.Visible = true;
             if (!chkComTxt)
                 ShowNoComMsg();
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=2", "language=" + curlan }));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=2", "language=" + this.CurrentLanguage }));
 
         }
 
         protected void btnlocal_Click(object sender, EventArgs e)
         {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "test=2", "language=" + p.ThePlugg.CreatedInCultureCode }));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "test=2", "language=" + this.PluggContainer.ThePlugg.CreatedInCultureCode }));
         }
 
         protected void btncanceltrans_Click(object sender, EventArgs e)
         {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "test=2", "language=" + curlan }));
-        }
-
-        protected void btnYtSave_Click(object sender, EventArgs e)
-        {
-            var id = hdnlabel.Value;
-            var itemid = Convert.ToInt32(id);
-
-            List<PluggComponent> comps = p.GetComponentList();
-
-            BaseHandler bh = new BaseHandler();
-
-
-            List<object> objToadd = new List<object>();
-
-            YouTube yt = bh.GetYouTubeByComponentId(Convert.ToInt32(id));
-            if (yt == null)
-                yt = new YouTube();
-            try
-            {
-                yt.YouTubeTitle = yttitle.Value;
-                yt.YouTubeDuration = Convert.ToInt32(ytduration.Value);
-                yt.YouTubeCode = ytYouTubeCode.Value;
-                yt.YouTubeAuthor = ytAuthor.Value;
-                yt.YouTubeCreatedOn = Convert.ToDateTime(ytYouTubeCreatedOn.Value);
-                yt.YouTubeComment = ytYouTubeComment.Value;
-                yt.PluggComponentId = itemid;
-            }
-            catch
-            {
-
-            }
-
-            bh.SaveYouTube(yt);
-
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=1", "language=" + curlan }));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "test=2", "language=" + this.CurrentLanguage }));
         }
 
         protected void btnSelSub_Click(object sender, EventArgs e)
@@ -740,26 +343,77 @@ namespace Plugghest.Modules.DisplayPlugg
                 int id = Convert.ToInt32(hdnNodeSubjectId.Value);
 
                 BaseHandler plugghandler = new BaseHandler();
-                p.ThePlugg.SubjectId = id;
-                p.LoadTitle();
+                this.PluggContainer.ThePlugg.SubjectId = id;
+                this.PluggContainer.LoadTitle();
                 List<object> blankList = new List<object>();
                 BaseHandler bh = new BaseHandler();
                 try
                 {
-                    bh.SavePlugg(p, blankList);
+                    bh.SavePlugg(this.PluggContainer, blankList);
                 }
                 catch (Exception)
                 {
                 }
             }
 
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + curlan }));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + this.CurrentLanguage }));
 
         }
 
         #region old methods
 
         //old events
+
+        //private void PageLoadFun()
+        //{
+        //    if (this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode)
+        //    {
+        //        if (IsCase2)
+        //            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=0", "language=" + this.PluggContainer.ThePlugg.CreatedInCultureCode }));
+
+        //        btnlocal.Visible = false;
+        //        btntransplug.Visible = false;
+        //        btnEditPlug.Visible = true;
+        //    }
+        //    else
+        //    {
+        //        if (IsCase3)
+        //            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + this.PluggContainer.ThePlugg.CreatedInCultureCode }));
+
+        //        btnEditPlug.Visible = false;
+        //        btncanceledit.Visible = false;
+        //    }
+        //    //CheckEditCase();
+
+
+        //    if (!IsAuthorized)
+        //    {
+        //        btnEditPlug.Visible = false;
+        //    }
+        //    if (IsCase3)
+        //    {
+        //        btnEditPlug.Visible = false;
+        //        btncanceledit.Visible = true;
+        //    }
+        //    if (IsCase2)
+        //    {
+        //        btncanceltrans.Visible = true;
+        //        btntransplug.Visible = false;
+        //    }
+        //    DisPlayPluggComp();
+        //}
+
+        //private void SetStaticBtnText()
+        //{
+        //    btnlocal.Text = BtnlocalTxt;
+        //    btnEditPlug.Text = btnEditPlugTxt;
+        //    btncanceledit.Text = BtncanceleditTet;
+        //    btncanceltrans.Text = BtncanceltransTxt;
+        //    btntransplug.Text = BtntransplugTxt;
+        //    btnSelSub.Text = BtnSaveTxt;
+        //    btnTreecancel.Text = BtnCancelTxt;
+        //}
+
         //protected void btnLabelSave_Click(object sender, EventArgs e)
         //{
         //    ETextItemType ItemType = ETextItemType.PluggComponentLabel;
@@ -1034,7 +688,7 @@ namespace Plugghest.Modules.DisplayPlugg
 
         //}
 
-        
+
         //private void DisPlayPluggComp()
         //{
         //    List<PluggComponent> comps = p.GetComponentList();

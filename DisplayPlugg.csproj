@@ -107,11 +107,11 @@
   <ItemGroup>
     <Content Include="App_LocalResources\Edit.ascx.resx" />
     <Content Include="App_LocalResources\Settings.ascx.resx" />
-    <Content Include="App_LocalResources\View.ascx.es-es.resx" />
-    <Content Include="App_LocalResources\View.ascx.en-us.resx">
+    <Content Include="App_LocalResources\View.ascx.es-ES.resx" />
+    <Content Include="App_LocalResources\View.ascx.en-US.resx">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="App_LocalResources\View.ascx.sv-se.resx" />
+    <Content Include="App_LocalResources\View.ascx.sv-SE.resx" />
     <Content Include="App_LocalResources\View.ascx.resx" />
     <Content Include="Edit.ascx" />
     <Content Include="EditComponents.aspx" />
@@ -147,14 +147,17 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\USerControl\USerControl.csproj">
+    <ProjectReference Include="..\..\USerControl\UserControl.csproj">
       <Project>{94f2953b-3ef6-4e66-be8e-3d12ed4f320d}</Project>
-      <Name>USerControl</Name>
+      <Name>UserControl</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugghest\Plugghest.csproj">
       <Project>{fb57af86-0993-4bbf-9281-784bf3232f41}</Project>
       <Name>Plugghest</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

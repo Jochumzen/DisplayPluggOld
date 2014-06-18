@@ -40,15 +40,6 @@ namespace Plugghest.Modules.DisplayPlugg {
         protected global::System.Web.UI.WebControls.HiddenField hdnDelbtnId;
         
         /// <summary>
-        /// DisplayYouTube control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::Plugghest.Modules.USerControl.DisplayPlugg.YouTube.Display DisplayYouTube;
-        
-        /// <summary>
         /// pnlloadCnl control.
         /// </summary>
         /// <remarks>
@@ -200,86 +191,5 @@ namespace Plugghest.Modules.DisplayPlugg {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divTransaltor;
-        
-        /// <summary>
-        /// hdnrichtext control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField hdnrichtext;
-        
-        /// <summary>
-        /// yttitle control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField yttitle;
-        
-        /// <summary>
-        /// ytduration control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField ytduration;
-        
-        /// <summary>
-        /// ytYouTubeCode control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField ytYouTubeCode;
-        
-        /// <summary>
-        /// ytAuthor control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField ytAuthor;
-        
-        /// <summary>
-        /// ytYouTubeCreatedOn control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField ytYouTubeCreatedOn;
-        
-        /// <summary>
-        /// ytYouTubeComment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HiddenField ytYouTubeComment;
-        
-        /// <summary>
-        /// lblCreateCourse1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCreateCourse1;
-        
-        /// <summary>
-        /// pnlEditPopup control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlEditPopup;
     }
 }

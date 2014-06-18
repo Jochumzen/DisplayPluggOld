@@ -120,6 +120,48 @@
   <data name="BasicSettings.Text" xml:space="preserve">
     <value>Basic DisplayPlugg Settings</value>
   </data>
+  <data name="btncanceleditResource1.Text" xml:space="preserve">
+    <value>Cancel Plugg</value>
+  </data>
+  <data name="btncanceleditResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btncanceltransResource1.Text" xml:space="preserve">
+    <value>Cancel translation</value>
+  </data>
+  <data name="btncanceltransResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnEditPlugResource1.Text" xml:space="preserve">
+    <value>Edit Plug</value>
+  </data>
+  <data name="btnEditPlugResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnlocalResource1.Text" xml:space="preserve">
+    <value>View this Plugg in the language it was created </value>
+  </data>
+  <data name="btnlocalResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnSelSubResource1.Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="btnSelSubResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btntransplug.Text" xml:space="preserve">
+    <value>Help us with the translation of this Plugg</value>
+  </data>
+  <data name="btntransplug.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="btnTreecancelResource1.Text" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="btnTreecancelResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
   <data name="CollapseAll.Text" xml:space="preserve">
     <value>Collapse All</value>
   </data>
@@ -134,5 +176,47 @@
   </data>
   <data name="EditModule.Text" xml:space="preserve">
     <value>Add Item</value>
+  </data>
+  <data name="lblCreateCourse1Resource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblCreateCourse1Resource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lblnoComResource1.Text" xml:space="preserve">
+    <value>This plug has no content.</value>
+  </data>
+  <data name="lblnoComResource1.ToolTip" xml:space="preserve">
+    <value>This plug has no content.</value>
+  </data>
+  <data name="lbltreeResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbltreeResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlEditPopupResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlEditPopupResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlloadCnlResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlloadCnlResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlPluggComResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlPluggComResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlTreeResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlTreeResource1.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>

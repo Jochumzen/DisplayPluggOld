@@ -117,70 +117,106 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add.Text" xml:space="preserve">
-    <value>Lägg till</value>
+  <data name="BasicSettings.Text" xml:space="preserve">
+    <value>Grundläggande DisplayPlugg Inställningar</value>
   </data>
-  <data name="btncanceledit.Text" xml:space="preserve">
-    <value>Avsluta redigeringsläge</value>
+  <data name="btncanceleditResource1.Text" xml:space="preserve">
+    <value>Avbryt Plugg</value>
   </data>
-  <data name="btncanceltrans.Text" xml:space="preserve">
-    <value>Avsluta översättning</value>
+  <data name="btncanceleditResource1.ToolTip" xml:space="preserve">
+    <value>Avbryt Plugg</value>
   </data>
-  <data name="btnlocal.Text" xml:space="preserve">
-    <value>Visa Pluggen i det språk den skapade i</value>
+  <data name="btncanceltransResource1.Text" xml:space="preserve">
+    <value>Avbryt översättning</value>
   </data>
-  <data name="btnEditPlug.Text" xml:space="preserve">
+  <data name="btncanceltransResource1.ToolTip" xml:space="preserve">
+    <value>Avbryt översättning</value>
+  </data>
+  <data name="btnEditPlugResource1.Text" xml:space="preserve">
     <value>Redigera Plugg</value>
+  </data>
+  <data name="btnEditPlugResource1.ToolTip" xml:space="preserve">
+    <value>Redigera Plugg</value>
+  </data>
+  <data name="btnlocalResource1.Text" xml:space="preserve">
+    <value>Se detta Plugg på det språk den skapades</value>
+  </data>
+  <data name="btnlocalResource1.ToolTip" xml:space="preserve">
+    <value>Se detta Plugg på det språk den skapades</value>
+  </data>
+  <data name="btnSelSubResource1.Text" xml:space="preserve">
+    <value>Spara</value>
+  </data>
+  <data name="btnSelSubResource1.ToolTip" xml:space="preserve">
+    <value>Spara</value>
   </data>
   <data name="btntransplug.Text" xml:space="preserve">
     <value>Hjälp oss med översättning av denna Plugg</value>
   </data>
-  <data name="Cancel.Text" xml:space="preserve">
-    <value>annullera</value>
+  <data name="btntransplug.ToolTip" xml:space="preserve">
+    <value>Hjälp oss med översättning av denna Plugg</value>
   </data>
-  <data name="GoogleTransTxtOk.Text" xml:space="preserve">
-    <value>Google översättning är OK</value>
+  <data name="btnTreecancelResource1.Text" xml:space="preserve">
+    <value>Avbryt</value>
   </data>
-  <data name="ImpgoogleTrans.Text" xml:space="preserve">
-    <value>Förbättra Google-översättning</value>
+  <data name="btnTreecancelResource1.ToolTip" xml:space="preserve">
+    <value>Avbryt</value>
   </data>
-  <data name="ImproveHumTransTxt.Text" xml:space="preserve">
-    <value>Förbättra översättning</value>
+  <data name="CollapseAll.Text" xml:space="preserve">
+    <value>Komprimera alla</value>
   </data>
-  <data name="Label.Text" xml:space="preserve">
-    <value>Label</value>
+  <data name="ConfirmDelete.Text" xml:space="preserve">
+    <value>Är du säker på att du vill ta bort detta objekt</value>
   </data>
-  <data name="Latex.Text" xml:space="preserve">
-    <value>Latex</value>
+  <data name="DeleteItem.Text" xml:space="preserve">
+    <value>Radera</value>
   </data>
-  <data name="Remove.Text" xml:space="preserve">
-    <value>Ta bort komponent</value>
-  </data>
-  <data name="RichRichText.Text" xml:space="preserve">
-    <value>RichRichText</value>
-  </data>
-  <data name="RichText.Text" xml:space="preserve">
-    <value>RichText</value>
-  </data>
-  <data name="Save.Text" xml:space="preserve">
-    <value>spara</value>
-  </data>
-  <data name="YouTube.Text" xml:space="preserve">
-    <value>YouTube</value>
-  </data>
-  <data name="Edit.Text" xml:space="preserve">
+  <data name="EditItem.Text" xml:space="preserve">
     <value>Redigera</value>
   </data>
-  <data name="AddNewCom.Text" xml:space="preserve">
-    <value>Lägg till ny komponent</value>
+  <data name="EditModule.Text" xml:space="preserve">
+    <value>Lägg till objekt</value>
   </data>
-  <data name="lblNoComponent.Text" xml:space="preserve">
-    <value>This plug has no content.</value>
+  <data name="lblCreateCourse1Resource1.Text" xml:space="preserve">
+    <value />
   </data>
-  <data name="Subject.Text" xml:space="preserve">
-    <value>ämne</value>
+  <data name="lblCreateCourse1Resource1.ToolTip" xml:space="preserve">
+    <value />
   </data>
-  <data name="Component.Text" xml:space="preserve">
-    <value>komponent</value>
+  <data name="lblnoComResource1.Text" xml:space="preserve">
+    <value>Denna kontakt har inget innehåll.</value>
+  </data>
+  <data name="lblnoComResource1.ToolTip" xml:space="preserve">
+    <value>Denna kontakt har inget innehåll.</value>
+  </data>
+  <data name="lbltreeResource1.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="lbltreeResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlEditPopupResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlEditPopupResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlloadCnlResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlloadCnlResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlPluggComResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlPluggComResource1.ToolTip" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlTreeResource1.GroupingText" xml:space="preserve">
+    <value />
+  </data>
+  <data name="pnlTreeResource1.ToolTip" xml:space="preserve">
+    <value />
   </data>
 </root>
