@@ -153,13 +153,13 @@ namespace Plugghest.Modules.DisplayPlugg
 
         private void SetLocalizationText()
         {
-            btnEditPlug.Text = Localization.GetString("btnEditPlugResource1.Text", this.LocalResourceFile);
-            btncanceledit.Text = Localization.GetString("btncanceleditResource1.Text", this.LocalResourceFile);
-            btncanceltrans.Text = Localization.GetString("btncanceltransResource1.Text", this.LocalResourceFile);
-            btntransplug.Text = Localization.GetString("btntransplug.Text", this.LocalResourceFile);
-            btnSelSub.Text = Localization.GetString("btnSelSubResource1.Text", this.LocalResourceFile);
-            btnTreecancel.Text = Localization.GetString("btnTreecancelResource1.Text", this.LocalResourceFile);
-            btnlocal.Text = Localization.GetString("btnlocalResource1.Text", this.LocalResourceFile) + " (" + this.PluggContainer.ThePlugg.CreatedInCultureCode + ")";
+            //btnEditPlug.Text = Localization.GetString("btnEditPlugResource1.Text", this.LocalResourceFile);
+            //btncanceledit.Text = Localization.GetString("btncanceleditResource1.Text", this.LocalResourceFile);
+            //btncanceltrans.Text = Localization.GetString("btncanceltransResource1.Text", this.LocalResourceFile);
+            //btntransplug.Text = Localization.GetString("btntransplug.Text", this.LocalResourceFile);
+            //btnSelSub.Text = Localization.GetString("btnSelSubResource1.Text", this.LocalResourceFile);
+            //btnTreecancel.Text = Localization.GetString("btnTreecancelResource1.Text", this.LocalResourceFile);
+            //btnlocal.Text = Localization.GetString("btnlocalResource1.Text", this.LocalResourceFile) + " (" + this.PluggContainer.ThePlugg.CreatedInCultureCode + ")";
         }
 
         private void shuffleLocalControls()

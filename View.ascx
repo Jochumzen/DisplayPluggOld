@@ -76,11 +76,11 @@
 <asp:Panel ID="pnlloadCnl" runat="server" meta:resourcekey="pnlloadCnlResource1"></asp:Panel>
 
 <div>
-    <asp:Button CssClass="cls small_fount" ID="btnlocal" Text="View this Plugg in the language it was created " runat="server" OnClick="btnlocal_Click" meta:resourcekey="btnlocalResource1" />
-    <asp:Button CssClass="cls" ID="btncanceltrans" Text="Cancel translation" runat="server" OnClick="btncanceltrans_Click" Visible="False" meta:resourcekey="btncanceltransResource1" />
-    <asp:Button CssClass="btneditplug" ID="btnEditPlug" Text="Edit Plug" runat="server" OnClick="btnEditPlugg_Click" meta:resourcekey="btnEditPlugResource1" />
-    <asp:Button CssClass="btneditplug" ID="btncanceledit" Text="Cancel Plug" runat="server" OnClick="btncanceledit_Click" Visible="False" meta:resourcekey="btncanceleditResource1" />
-    <asp:Button CssClass="btneditplug small_fount" ID="btntransplug" meta:resourcekey="btntransplug" Text="Help us with the translation of this Plugg" runat="server" OnClick="btntransplug_Click" />
+    <asp:Button CssClass="cls small_fount" ID="btnlocal" Text="View this Plugg in the language it was created " runat="server" OnClick="btnlocal_Click" resourcekey="btnlocalResource1.Text" />
+    <asp:Button CssClass="cls" ID="btncanceltrans" Text="Cancel translation" runat="server" OnClick="btncanceltrans_Click" Visible="False" resourcekey="btncanceltransResource1.Text" />
+    <asp:Button CssClass="btneditplug" ID="btnEditPlug" Text="Edit Plug" runat="server" OnClick="btnEditPlugg_Click" resourcekey="btnEditPlugResource1.Text" />
+    <asp:Button CssClass="btneditplug" ID="btncanceledit" Text="Cancel Plug" runat="server" OnClick="btncanceledit_Click" Visible="False" resourcekey="btncanceleditResource1.Text" />
+    <asp:Button CssClass="btneditplug small_fount" ID="btntransplug" resourcekey="btntransplug.Text" Text="Help us with the translation of this Plugg" runat="server" OnClick="btntransplug_Click" />
 </div>
 <hr />
 <asp:Label ID="lblnoCom" runat="server" Visible="False" meta:resourcekey="lblnoComResource1"></asp:Label>
