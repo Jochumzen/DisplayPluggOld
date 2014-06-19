@@ -9,46 +9,18 @@
 ' DEALINGS IN THE SOFTWARE.
 ' 
 */
-
 using System;
-using System.Collections;
-using System.Security.Cryptography.X509Certificates;
 using System.Web.UI.WebControls;
-using DotNetNuke.Entities.Tabs;
-using DotNetNuke.Framework;
+using Plugghest.Modules.UserControl.Components;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
-using Plugghest.Helpers;
-using Plugghest.Base2;
 using System.Collections.Generic;
-using Plugghest.DNN;
-using System.Web.UI.HtmlControls;
-using System.Web.UI;
-using System.Text;
 using System.Linq;
-using System.Reflection;
-using System.Resources;
-using System.Globalization;
-using System.Threading;
-using System.Web.Script.Serialization;
-using System.Web.Services;
-using System.Web.Script.Services;
-//using System;
-//using System.Web.UI.WebControls;
-//using Plugghest.Modules.UserControl.Components;
-//using DotNetNuke.Security;
-//using DotNetNuke.Services.Exceptions;
-//using DotNetNuke.Entities.Modules;
-//using DotNetNuke.Entities.Modules.Actions;
-//using DotNetNuke.Services.Localization;
-//using DotNetNuke.UI.Utilities;
-//using System.Collections.Generic;
-//using System.Linq;
-//using Plugghest.Base2;
+using Plugghest.Base2;
 using Plugghest.Modules.UserControl.DisplayPlugg;
 
 
@@ -130,10 +102,28 @@ namespace Plugghest.Modules.DisplayPlugg
                 return ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && !IsAuthorized) ? ECase.ViewInCreationLangNotAuth :
                     ((this.PluggContainer.CultureCode != this.PluggContainer.ThePlugg.CreatedInCultureCode) && EditStr != 2) ? ECase.ViewInAltLang :
                     ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr != 1 && EditStr != 11) ? ECase.ViewInCreationLangAuth :
-                    ((this.PluggContainer.CultureCode != this.PluggContainer.ThePlugg.CreatedInCultureCode) && EditStr == 2) ? ECase.Translate :
-                    ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr == 1) ? ECase.Edit : ECase.SubEdit1;
+                    ((this.PluggContainer.CultureCode != this.PluggContainer.ThePlugg.CreatedInCultureCode) && EditStr == 2 && !this.Is_Single_ComponentEdit2) ? ECase.Translate :
+                    ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr == 1) ? ECase.Edit :
+                    this.Is_Single_ComponentEdit1 ? ECase.SubEdit1 : ECase.SubEdit2;
             }
         }
+
+        private bool Is_Single_ComponentEdit1
+        {
+            get
+            {
+                return !string.IsNullOrEmpty(Page.Request.QueryString["s"]) ? Convert.ToBoolean(Page.Request.QueryString["s"]) : false;
+            }
+        }
+
+        private bool Is_Single_ComponentEdit2
+        {
+            get
+            {
+                return (!string.IsNullOrEmpty(Page.Request.QueryString["trans"]) && Convert.ToInt16(Page.Request.QueryString["trans"]) > 0);
+            }
+        }
+
 
         /// <summary>
         /// 
@@ -142,7 +132,7 @@ namespace Plugghest.Modules.DisplayPlugg
         {
             get
             {
-                return Localization.GetString("lblNoComponent", this.LocalResourceFile + ".ascx." + this.CurrentLanguage + ".resx");
+                return Localization.GetString("lblNoComponent", this.LocalResourceFile);
             }
         }
 
@@ -153,7 +143,7 @@ namespace Plugghest.Modules.DisplayPlugg
         {
             get
             {
-                return Localization.GetString("Edit", this.LocalResourceFile + ".ascx." + this.CurrentLanguage + ".resx");
+                return Localization.GetString("Edit", this.LocalResourceFile);
             }
         }
 
@@ -227,14 +217,14 @@ namespace Plugghest.Modules.DisplayPlugg
             int i = 0, IntCompOrder = 1;
             bool isLastComp = false;
 
-            if (!string.IsNullOrEmpty(Page.Request.QueryString["s"]) && true == Convert.ToBoolean(Page.Request.QueryString["s"]))
+            if (this.Is_Single_ComponentEdit1)
             {
                 int Selected_ComponentID = !string.IsNullOrEmpty(Page.Request.QueryString["cid"]) ? Convert.ToInt16(Page.Request.QueryString["cid"]) : 0;
                 LoadControl(1, false, comps.FirstOrDefault(x => x.PluggComponentId == Selected_ComponentID));
                 return;
             }
 
-            if (!string.IsNullOrEmpty(Page.Request.QueryString["trans"]) && Convert.ToInt16(Page.Request.QueryString["trans"]) > 0)
+            if (this.Is_Single_ComponentEdit2)
             {
                 int Selected_ComponentID = Convert.ToInt16(Page.Request.QueryString["trans"]);
                 LoadControl(1, false, comps.FirstOrDefault(x => x.PluggComponentId == Selected_ComponentID));
@@ -355,6 +345,11 @@ namespace Plugghest.Modules.DisplayPlugg
 
             Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", new string[] { "edit=" + EditStr, "language=" + this.CurrentLanguage }));
 
+        }
+
+        protected void btnlocal_Init(object sender, EventArgs e)
+        {
+            ((Button)sender).Text += string.Format(" ( {0} ) ", this.CurrentLanguage);
         }
 
         #region old methods
