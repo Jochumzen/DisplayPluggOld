@@ -10,45 +10,45 @@
 ' 
 */
 
-//using System;
-//using System.Collections;
-////using System.Security.Cryptography.X509Certificates;
-////using System.Web.UI.WebControls;
-//using DotNetNuke.Entities.Tabs;
-//using DotNetNuke.Framework;
-//using DotNetNuke.Security;
-//using DotNetNuke.Services.Exceptions;
-//using DotNetNuke.Entities.Modules;
-//using DotNetNuke.Entities.Modules.Actions;
-//using DotNetNuke.Services.Localization;
-//using DotNetNuke.UI.Utilities;
-//using Plugghest.Helpers;
-//using Plugghest.Base2;
-//using System.Collections.Generic;
-//using Plugghest.DNN;
-//using System.Web.UI.HtmlControls;
-//using System.Web.UI;
-//using System.Text;
-//using System.Linq;
-////using System.Reflection;
-//using System.Resources;
-//using System.Globalization;
-//using System.Threading;
-//using System.Web.Script.Serialization;
-//using System.Web.Services;
-//using System.Web.Script.Services;
 using System;
+using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.UI.WebControls;
-using Plugghest.Modules.UserControl.Components;
+using DotNetNuke.Entities.Tabs;
+using DotNetNuke.Framework;
 using DotNetNuke.Security;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Modules.Actions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Utilities;
-using System.Collections.Generic;
-using System.Linq;
+using Plugghest.Helpers;
 using Plugghest.Base2;
+using System.Collections.Generic;
+using Plugghest.DNN;
+using System.Web.UI.HtmlControls;
+using System.Web.UI;
+using System.Text;
+using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Globalization;
+using System.Threading;
+using System.Web.Script.Serialization;
+using System.Web.Services;
+using System.Web.Script.Services;
+//using System;
+//using System.Web.UI.WebControls;
+//using Plugghest.Modules.UserControl.Components;
+//using DotNetNuke.Security;
+//using DotNetNuke.Services.Exceptions;
+//using DotNetNuke.Entities.Modules;
+//using DotNetNuke.Entities.Modules.Actions;
+//using DotNetNuke.Services.Localization;
+//using DotNetNuke.UI.Utilities;
+//using System.Collections.Generic;
+//using System.Linq;
+//using Plugghest.Base2;
 using Plugghest.Modules.UserControl.DisplayPlugg;
 
 
@@ -131,7 +131,7 @@ namespace Plugghest.Modules.DisplayPlugg
                     ((this.PluggContainer.CultureCode != this.PluggContainer.ThePlugg.CreatedInCultureCode) && EditStr != 2) ? ECase.ViewInAltLang :
                     ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr != 1 && EditStr != 11) ? ECase.ViewInCreationLangAuth :
                     ((this.PluggContainer.CultureCode != this.PluggContainer.ThePlugg.CreatedInCultureCode) && EditStr == 2) ? ECase.Translate :
-                    ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr == 1) ? ECase.Edit : ECase.SubEdit;
+                    ((this.PluggContainer.CultureCode == this.PluggContainer.ThePlugg.CreatedInCultureCode) && IsAuthorized && EditStr == 1) ? ECase.Edit : ECase.SubEdit1;
             }
         }
 

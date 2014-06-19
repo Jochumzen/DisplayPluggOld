@@ -54,7 +54,7 @@ div[data-role="editor-toolbar"] {
 
     .btneditplug
     {
-        float: right;
+        float: right!important;
     }
 
     .dispalyplug

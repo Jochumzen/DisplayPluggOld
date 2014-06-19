@@ -248,22 +248,22 @@ namespace Plugghest.Modules.DisplayPlugg
     /// <summary>
     /// The 'ConcreteFactory6' class
     /// </summary>
-    public class ConcreteCase_SubEdit : DisplayPlugg_AbstractFactory
+    public class ConcreteCase_SubEdit1 : DisplayPlugg_AbstractFactory
     {
-        private static ConcreteCase_SubEdit myVar;
-        public static ConcreteCase_SubEdit Instance
+        private static ConcreteCase_SubEdit1 myVar;
+        public static ConcreteCase_SubEdit1 Instance
         {
             get
             {
                 // Uses lazy initialization.
                 // Note: this is not thread safe.
                 if (null == myVar)
-                    myVar = new ConcreteCase_SubEdit();
+                    myVar = new ConcreteCase_SubEdit1();
                 return myVar;
             }
         }
 
-        private ConcreteCase_SubEdit()
+        private ConcreteCase_SubEdit1()
         { }
 
 
@@ -286,6 +286,50 @@ namespace Plugghest.Modules.DisplayPlugg
         public override AbstractView CreateYouTube()
         {
             return new YouTube_SubEdit();
+        }
+    }
+
+    /// <summary>
+    /// The 'ConcreteFactory6' class
+    /// </summary>
+    public class ConcreteCase_SubEdit2 : DisplayPlugg_AbstractFactory
+    {
+        private static ConcreteCase_SubEdit2 myVar;
+        public static ConcreteCase_SubEdit2 Instance
+        {
+            get
+            {
+                // Uses lazy initialization.
+                // Note: this is not thread safe.
+                if (null == myVar)
+                    myVar = new ConcreteCase_SubEdit2();
+                return myVar;
+            }
+        }
+
+        private ConcreteCase_SubEdit2()
+        { }
+
+
+        public override AbstractView CreateLabel()
+        {
+            return new Label_SubEdit2();
+        }
+        public override AbstractView CreateLatex()
+        {
+            return new Latex_SubEdit2();
+        }
+        public override AbstractView CreateRich()
+        {
+            return new RichText_SubEdit2();
+        }
+        public override AbstractView CreateRichRich()
+        {
+            return new RichRichText_SubEdit2();
+        }
+        public override AbstractView CreateYouTube()
+        {
+            return new YouTube_SubEdit2();
         }
     }
 
@@ -484,6 +528,24 @@ namespace Plugghest.Modules.DisplayPlugg
 
         }
     }
+
+    public class Label_SubEdit2 : AbstractView
+    {
+        public override void Display(ControlViewModel obj)
+        {
+
+        }
+
+        public override void Edit1(ControlViewModel obj)
+        {
+            
+        }
+
+        public override void Edit2(ControlViewModel obj)
+        {
+           
+        }
+    }
     #endregion
 
     #region Latex
@@ -656,6 +718,28 @@ namespace Plugghest.Modules.DisplayPlugg
             Latex_Edit1.ComponentType = obj.ComponentType;
             Latex_Edit1.TabID = obj.TabID;
             obj._this.FindControl("divTitle").Controls.Add(Latex_Edit1);
+        }
+
+        public override void Edit2(ControlViewModel obj)
+        {
+
+        }
+    }
+
+    /// <summary>
+    /// The 'ProductB3' class
+    /// </summary>
+    public class Latex_SubEdit2 : AbstractView
+    {
+
+        public override void Display(ControlViewModel obj)
+        {
+
+        }
+
+        public override void Edit1(ControlViewModel obj)
+        {
+           
         }
 
         public override void Edit2(ControlViewModel obj)
@@ -845,6 +929,28 @@ namespace Plugghest.Modules.DisplayPlugg
 
         }
     }
+
+    /// <summary>
+    /// The 'ProductB3' class
+    /// </summary>
+    public class RichText_SubEdit2 : AbstractView
+    {
+
+        public override void Display(ControlViewModel obj)
+        {
+
+        }
+
+        public override void Edit1(ControlViewModel obj)
+        {
+           
+        }
+
+        public override void Edit2(ControlViewModel obj)
+        {
+
+        }
+    }
     #endregion
 
     #region RichRichText
@@ -1023,6 +1129,27 @@ namespace Plugghest.Modules.DisplayPlugg
 
         }
     }
+
+    /// <summary>
+    /// The 'ProductB3' class
+    /// </summary>
+    public class RichRichText_SubEdit2 : AbstractView
+    {
+        public override void Display(ControlViewModel obj)
+        {
+
+        }
+
+        public override void Edit1(ControlViewModel obj)
+        {
+           
+        }
+
+        public override void Edit2(ControlViewModel obj)
+        {
+
+        }
+    }
     #endregion
 
     #region YouTube
@@ -1192,6 +1319,28 @@ namespace Plugghest.Modules.DisplayPlugg
 
         }
     }
+
+    /// <summary>
+    /// The 'ProductB3' class
+    /// </summary>
+    public class YouTube_SubEdit2 : AbstractView
+    {
+
+        public override void Display(ControlViewModel obj)
+        {
+
+        }
+
+        public override void Edit1(ControlViewModel obj)
+        {
+            
+        }
+
+        public override void Edit2(ControlViewModel obj)
+        {
+
+        }
+    }
     #endregion
 
     /// <summary>
@@ -1214,7 +1363,8 @@ namespace Plugghest.Modules.DisplayPlugg
             t.Add(ECase.ViewInCreationLangAuth, ConcreteCase_ViewInCreationLangAuth.Instance);
             t.Add(ECase.Translate, ConcreteCase_Translate.Instance);
             t.Add(ECase.Edit, ConcreteCase_Edit.Instance);
-            t.Add(ECase.SubEdit, ConcreteCase_SubEdit.Instance);
+            t.Add(ECase.SubEdit1, ConcreteCase_SubEdit1.Instance);
+            t.Add(ECase.SubEdit2, ConcreteCase_SubEdit2.Instance);
 
             temp.Add(EComponentType.Label, t[factoryCase].CreateLabel());
             temp.Add(EComponentType.Latex, t[factoryCase].CreateLatex());
